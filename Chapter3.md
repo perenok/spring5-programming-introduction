@@ -64,7 +64,7 @@ public class MemberRegisterService {
 ```
    - 생성자를 통애 의존 객체를 주입받도록 변경
    - MemberDao -> CachedMemberDao로 변경할 때 생성자에 인자로 넘어가는 곳만 수정하면 됨
-   - 코드가 한 곳으로 집중
+   - 코드가 생성자의 인자 하나로 집중
    
 ## 5. 객체 조립기
 ```
@@ -96,6 +96,22 @@ public class Assembler {
 }
 ```
    - 이 조립기에 있는 필드를 get 함수를 통해 가져오면 원하는 객체를 사용할 수 있다.
+```
+public class MainForAssembler {
+   
+   private static Assembler assembler = new Assembler();
+   
+   private static void processNewCommand(String[] arg) {
+      if (arg.length != 5) {
+          printHelp();
+          return;
+      }
+      MemberRegisterService regSvc = assembler.getMemberRegisterService();
+      ...
+   }
+}
+```
+   - Assembler를 통해 MemberRegisterService의 객체를 받아올 수 있다.
    
 ## 6. 스프링의 DI 설정
 #### 6.1 스프링을 이용한 객체 조립과 사용
